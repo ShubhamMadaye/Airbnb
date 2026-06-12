@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const db_Path = 'mongodb+srv://shubhammadaye02:shubham022006@airbnb.pbvovjo.mongodb.net/airbnb?appName=airbnb';
+const db_Path = 'your_mongodb_path';
 
 const homeSchema = new mongoose.Schema({ status: String }, { strict: false });
 const HomeModel = mongoose.model('Home', homeSchema);
