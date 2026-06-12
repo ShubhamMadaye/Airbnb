@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const db_Path = 'mongodb+srv://shubhammadaye02:shubham022006@airbnb.pbvovjo.mongodb.net/airbnb?appName=airbnb';
+const db_Path = 'your_mongodb_path';
 const Home = require('./models/home');
 
 mongoose.connect(db_Path).then(() => {
