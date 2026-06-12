@@ -1,0 +1,74 @@
+<%- include('../partials/head') %>
+</head>
+<body class="bg-gradient-to-br from-amber-600 to-amber-800 text-white font-sans min-h-screen flex flex-col" style="font-family: 'Inter', sans-serif;">
+
+    <%- include('../partials/nav') %>
+
+    <main class="flex-1 flex flex-col items-center justify-center px-6 py-12 w-full">
+        <div class="w-full max-w-lg bg-white/10 backdrop-blur-md rounded-2xl shadow-2xl p-8">
+            <header class="mb-6 text-center">
+                <a href="/" class="text-amber-200 text-sm hover:text-white transition mb-4 inline-block">← Back to Home</a>
+                <h1 class="text-3xl font-bold tracking-tight">List Your Home</h1>
+                <p class="text-amber-200 mt-1 text-sm">Fill in the details below to add your property</p>
+            </header>
+
+            <form action="/host/add-home" method="post" class="flex flex-col gap-5" enctype="multipart/form-data">
+
+                <!-- Home Name -->
+                <div class="flex flex-col gap-1">
+                    <label class="text-sm font-semibold text-amber-200 uppercase tracking-wide">Home Name</label>
+                    <input
+                        class="bg-white/20 text-white placeholder-amber-300 border border-white/20 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-amber-300 transition"
+                        type="text"
+                        name="homeName"
+                        placeholder="e.g. Cozy Beach Cottage"
+                        required
+                    />
+                </div>
+
+                <!-- Location -->
+                <div class="flex flex-col gap-1">
+                    <label class="text-sm font-semibold text-amber-200 uppercase tracking-wide">Location</label>
+                    <input
+                        class="bg-white/20 text-white placeholder-amber-300 border border-white/20 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-amber-300 transition"
+                        type="text"
+                        name="houseAddress"
+                        placeholder="e.g. Goa, India"
+                        required
+                    />
+                </div>
+
+                <!-- Price Per Night -->
+                <div class="flex flex-col gap-1">
+                    <label class="text-sm font-semibold text-amber-200 uppercase tracking-wide">Price Per Night (₹)</label>
+                    <input
+                        class="bg-white/20 text-white placeholder-amber-300 border border-white/20 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-amber-300 transition"
+                        type="number"
+                        name="pricePerNight"
+                        placeholder="e.g. 4500"
+                        min="1"
+                        required
+                    />
+                </div>
+
+                <!-- Photo image-->
+                <div class="flex flex-col gap-1">
+                    <label class="text-sm font-semibold text-amber-200 uppercase tracking-wide">Photo</label>
+                    <input
+                        class="bg-white/20 text-white placeholder-amber-300 border border-white/20 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-amber-300 transition"
+                        type="file"
+                        name="photo" 
+                        accept="image/*" />
+                </div>
+
+                <button
+                    type="submit"
+                    class="mt-2 bg-gradient-to-r from-amber-400 to-amber-500 text-white font-bold py-3 px-6 rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transform transition duration-300 ease-in-out cursor-pointer"
+                >
+                    🏡 List My Home
+                </button>
+            </form>
+        </div>
+    </main>
+</body>
+</html>

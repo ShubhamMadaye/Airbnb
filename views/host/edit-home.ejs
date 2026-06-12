@@ -1,0 +1,93 @@
+<%- include('../partials/head') %>
+</head>
+
+<body class="bg-gradient-to-br from-amber-600 to-amber-800 text-white font-sans min-h-screen flex flex-col"
+    style="font-family: 'Inter', sans-serif;">
+
+    <%- include('../partials/nav') %>
+
+    <main class="flex-1 w-full max-w-lg mx-auto px-6 py-12">
+
+        <a href="/host/edit-homes"
+            class="inline-flex items-center gap-2 text-slate-400 hover:text-white text-sm mb-8 transition">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+            </svg>
+            Back to Manage Listings
+        </a>
+
+        <header class="mb-8">
+            <p class="text-slate-400 text-xs mb-1">Listing #<%= Number(id) + 1 %></p>
+            <h1 class="text-3xl font-bold">✏️ Edit Home</h1>
+            <p class="text-slate-400 mt-1 text-sm">Update the details for this listing.</p>
+        </header>
+
+        <div class="bg-white/5 border border-white/10 rounded-2xl shadow-2xl p-8">
+            <form action="/host/edit-home/<%= id %>" method="POST" class="flex flex-col gap-5" enctype="multipart/form-data">
+
+                <!-- Home Name -->
+                <div class="flex flex-col gap-1">
+                    <label class="text-xs font-semibold text-amber-300 uppercase tracking-widest">Home Name</label>
+                    <input
+                        class="bg-white/10 text-white placeholder-slate-500 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-amber-400 transition"
+                        type="text"
+                        name="homeName"
+                        value="<%= home.housename %>"
+                        required />
+                </div>
+
+                <!-- Location -->
+                <div class="flex flex-col gap-1">
+                    <label class="text-xs font-semibold text-amber-300 uppercase tracking-widest">Location</label>
+                    <input
+                        class="bg-white/10 text-white placeholder-slate-500 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-amber-400 transition"
+                        type="text"
+                        name="houseAddress"
+                        value="<%= home.location %>"
+                        required />
+                </div>
+
+                <!-- Price -->
+                <div class="flex flex-col gap-1">
+                    <label class="text-xs font-semibold text-amber-300 uppercase tracking-widest">Price Per Night (₹)</label>
+                    <input
+                        class="bg-white/10 text-white placeholder-slate-500 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-amber-400 transition"
+                        type="number"
+                        name="pricePerNight"
+                        value="<%= home.pricePerNight %>"
+                        min="1"
+                        required />
+                </div>
+
+                <!-- Photo image -->
+                <div class="flex flex-col gap-1">
+                    <label class="text-xs font-semibold text-amber-300 uppercase tracking-widest">Photo</label>
+                    <input
+                        class="bg-white/10 text-white placeholder-slate-500 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-amber-400 transition"
+                        type="file"
+                        name="photo"
+                        value="<%= home.photo %>"
+                        accept="image/*" 
+/>
+                </div>
+
+                <!-- Buttons -->
+                <div class="flex gap-4 mt-2">
+                    <a href="/host/edit-homes"
+                        class="flex-1 text-center bg-white/10 border border-white/10 hover:bg-white/20 text-white font-semibold py-3 px-6 rounded-xl transition">
+                        Cancel
+                    </a>
+                    <button type="submit"
+                        class="flex-1 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-white font-bold py-3 px-6 rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transform transition duration-300">
+                        💾 Save Changes
+                    </button>
+                </div>
+
+            </form>
+        </div>
+
+    </main>
+
+</body>
+</html>

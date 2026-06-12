@@ -1,0 +1,113 @@
+<nav
+    class="w-full px-8 py-4 flex items-center justify-between bg-white shadow-sm border-b border-gray-100 sticky top-0 z-50">
+    <a href="/"
+        class="text-xl font-bold tracking-tight text-rose-500 flex items-center gap-1.5 hover:opacity-90 transition select-none">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-rose-500">
+            <path
+                d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.06l-8.689-8.69a2.25 2.25 0 00-3.182 0l-8.69 8.69a.75.75 0 001.061 1.06l8.69-8.69z" />
+            <path
+                d="M12 5.432l8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 01-.75-.75v-4.5a.75.75 0 00-.75-.75h-3a.75.75 0 00-.75.75V21a.75.75 0 01-.75.75H5.625a1.875 1.875 0 01-1.875-1.875v-6.198a2.29 2.29 0 00.091-.086L12 5.43z" />
+        </svg>
+        <span class="tracking-tight text-lg text-rose-500">StayNest</span>
+    </a>
+    <ul class="flex items-center gap-6 text-sm font-medium">
+        <li><a href="/"
+                class="hover:text-[var(--primary)] transition <%= currentPage === 'home' ? 'text-[var(--primary)] font-semibold' : '' %>">Listings</a>
+        </li>
+ 
+        <% if (user) { %>
+            <li>
+                <a href="/favourites"
+                    class="flex items-center gap-1 hover:text-[var(--primary)] transition <%= currentPage === 'favourites' ? 'text-[var(--primary)] font-semibold' : '' %>">
+                    ❤️ Favourites
+                </a>
+            </li>
+ 
+            <% if (user.role !=='admin' ) { %>
+ 
+                <% if (user.isHost) { %>
+                    <!-- HOST: show listing management links -->
+                    <li>
+                        <a href="/my-listings"
+                            class="hover:text-[var(--primary)] transition <%= currentPage === 'my-listings' ? 'text-[var(--primary)] font-semibold' : '' %>">
+                            🏠 My Listings
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/list-home"
+                            class="inline-flex items-center gap-2 bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white font-semibold py-2 px-5 rounded-full shadow-md hover:scale-105 transform transition duration-300 ease-in-out text-sm <%= currentPage === 'list-home' ? 'ring-2 ring-rose-500/50' : '' %>">
+                            <span>+</span> List Your Home
+                        </a>
+                    </li>
+                    <% } %>
+ 
+                        <% } %>
+ 
+                            <% if (user.role==='admin' ) { %>
+                                <li>
+                                    <a href="/host/edit-homes"
+                                        class="hover:text-[var(--primary)] transition <%= currentPage === 'edit-homes' ? 'text-[var(--primary)] font-semibold' : '' %>"
+                                        title="Manage Listings">
+                                        🛠 Manage
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/host/pending-listings"
+                                        class="hover:text-[var(--primary)] transition <%= currentPage === 'pending-listings' ? 'text-[var(--primary)] font-semibold' : '' %>"
+                                        title="Pending Approvals">
+                                        ⏳ Pending
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/host/bookings"
+                                        class="hover:text-[var(--primary)] transition <%= currentPage === 'bookings' ? 'text-[var(--primary)] font-semibold' : '' %>"
+                                        title="All Customer Bookings">
+                                        📋 Bookings
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/host/users"
+                                        class="hover:text-[var(--primary)] transition <%= currentPage === 'users' ? 'text-[var(--primary)] font-semibold' : '' %>"
+                                        title="Manage Users">
+                                        👥 Users
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/host/reports"
+                                        class="hover:text-[var(--primary)] transition <%= currentPage === 'reports' ? 'text-[var(--primary)] font-semibold' : '' %>"
+                                        title="User Reports">
+                                        🚩 Reports
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/host/add-home"
+                                        class="inline-flex items-center gap-2 bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white font-semibold py-2 px-5 rounded-full shadow-md hover:scale-105 transform transition duration-300 ease-in-out text-sm <%= currentPage === 'add-home' ? 'ring-2 ring-rose-500/50' : '' %>">
+                                        <span>+</span> Add Home
+                                    </a>
+                                </li>
+                                <% } %>
+ 
+                                    <!-- Logout Form -->
+                                    <li>
+                                        <form action="/auth/logout" method="POST" class="inline">
+                                            <button type="submit"
+                                                class="hover:text-[var(--primary)] transition ml-2 border-l border-gray-200 pl-4 cursor-pointer">
+                                                Logout (<%= user.name %>)
+                                            </button>
+                                        </form>
+                                    </li>
+ 
+                                    <% } else { %>
+                                        <!-- Logged out links -->
+                                        <li>
+                                            <a href="/auth/login"
+                                                class="hover:text-[var(--primary)] transition <%= currentPage === 'login' ? 'text-[var(--primary)] font-semibold' : '' %>">Login</a>
+                                        </li>
+                                        <li>
+                                            <a href="/auth/register"
+                                                class="bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white font-semibold py-2 px-5 rounded-full shadow-md transition text-sm">Sign
+                                                Up</a>
+                                        </li>
+                                        <% } %>
+    </ul>
+</nav>

@@ -1,0 +1,105 @@
+<%- include('../partials/head') %>
+    </head>
+
+    <body class="bg-[var(--background)] text-[var(--text)] font-sans min-h-screen flex flex-col">
+ 
+         <%- include('../partials/nav') %>
+ 
+             <main class="flex-1 w-full max-w-4xl mx-auto px-6 py-12">
+ 
+                 <header class="mb-8 text-left">
+                     <h1 class="text-3xl font-bold text-[var(--text)]">🗓️ My Bookings</h1>
+                     <p class="text-[var(--text-muted)] mt-1 text-sm font-medium">Your reservation history</p>
+                 </header>
+ 
+                 <% if (bookings.length===0) { %>
+                     <div class="bg-white border border-gray-200 rounded-2xl p-12 text-center shadow-md">
+                         <div class="text-6xl mb-4">🏡</div>
+                         <h2 class="text-xl font-semibold mb-2 text-[var(--text)]">No bookings yet</h2>
+                         <p class="text-[var(--text-muted)] text-sm mb-6">You haven't booked any homes. Start exploring!</p>
+                         <a href="/"
+                             class="inline-block bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white font-bold py-3 px-8 rounded-full shadow-md hover:scale-105 transform transition duration-300">
+                             Browse Listings
+                         </a>
+                     </div>
+                     <% } else { %>
+                         <div class="flex flex-col gap-5">
+                             <% bookings.forEach(booking=> {
+                                 const isCancelled = booking.status === 'cancelled';
+                                 %>
+                                 <div
+                                     class="bg-white border rounded-2xl p-6 flex flex-col sm:flex-row items-start sm:items-center gap-6 shadow-md transition
+                         <%= isCancelled ? 'border-red-200 bg-red-50/20 opacity-80' : 'border-gray-200' %>">
+ 
+                                     <!-- Icon -->
+                                     <div class="text-5xl flex-shrink-0">
+                                         <%= isCancelled ? '🚫' : '🏡' %>
+                                     </div>
+ 
+                                     <!-- Info -->
+                                     <div class="flex-1 text-left">
+                                         <div class="flex items-center gap-3 flex-wrap mb-1">
+                                             <h2
+                                                 class="text-xl font-bold text-[var(--text)] capitalize <%= isCancelled ? 'line-through decoration-red-400' : '' %>">
+                                                 <%= booking.homeName %>
+                                             </h2>
+                                             <% if (isCancelled) { %>
+                                                 <span
+                                                     class="inline-flex items-center gap-1 bg-red-100 border border-red-200 text-red-700 text-xs font-semibold px-2.5 py-1 rounded-full">
+                                                     🚫 Cancelled by Admin
+                                                 </span>
+                                                 <% } else { %>
+                                                     <span
+                                                         class="inline-flex items-center gap-1 bg-green-100 border border-green-200 text-green-700 text-xs font-semibold px-2.5 py-1 rounded-full">
+                                                         ✅ Active
+                                                     </span>
+                                                     <% } %>
+                                         </div>
+                                         <p class="text-[var(--text-muted)] text-sm capitalize flex items-center gap-1 font-medium">
+                                             <svg class="map-pin-svg text-[var(--accent)]" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                                             <%= booking.homeLocation %>
+                                         </p>
+ 
+                                         <div class="flex flex-wrap gap-4 mt-3 text-sm text-[var(--text-muted)]">
+                                             <span>📅 <strong>Check-in:</strong>
+                                                 <%= new Date(booking.checkIn).toDateString() %>
+                                             </span>
+                                             <span>📅 <strong>Check-out:</strong>
+                                                 <%= new Date(booking.checkOut).toDateString() %>
+                                             </span>
+                                             <span>🌙 <strong>
+                                                     <%= booking.nights %>
+                                                 </strong> night<%= booking.nights> 1 ? 's' : '' %></span>
+                                         </div>
+ 
+                                         <% if (isCancelled) { %>
+                                             <div
+                                                 class="mt-3 bg-red-50 border border-red-200 text-red-700 text-xs rounded-xl px-4 py-2">
+                                                 ⚠️ This reservation was cancelled by the admin. Please contact support
+                                                 or book a new home.
+                                             </div>
+                                             <% } %>
+                                     </div>
+ 
+                                     <!-- Price -->
+                                     <div class="flex-shrink-0 text-right">
+                                         <div
+                                             class="text-2xl font-bold text-[var(--text)] <%= isCancelled ? 'text-gray-400 line-through' : '' %>">
+                                             ₹<%= Number(booking.totalCost).toLocaleString('en-IN') %>
+                                         </div>
+                                         <div class="text-xs text-[var(--text-light)]">Total</div>
+                                         <div class="text-xs text-[var(--text-light)]/60 mt-1">Booked <%= new
+                                                 Date(booking.createdAt).toLocaleDateString('en-IN') %>
+                                         </div>
+                                     </div>
+ 
+                                 </div>
+                                 <% }) %>
+                         </div>
+                         <% } %>
+ 
+             </main>
+
+    </body>
+
+    </html>

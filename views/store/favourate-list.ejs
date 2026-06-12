@@ -1,0 +1,113 @@
+<%- include('../partials/head') %>
+    </head>
+
+    <body class="bg-[var(--background)] text-[var(--text)] font-sans min-h-screen flex flex-col">
+ 
+         <%- include('../partials/nav') %>
+ 
+             <header class="text-center py-12 px-6">
+                 <h1 class="text-5xl font-bold tracking-tight text-[var(--text)]">❤️ My Favourites</h1>
+                 <p class="text-[var(--text-muted)] mt-3 text-lg max-w-xl mx-auto">Homes you've saved for later.</p>
+             </header>
+ 
+             <main class="flex-1 w-full max-w-6xl mx-auto px-6 pb-16">
+ 
+                 <% if (favourites.length===0) { %>
+                     <div class="flex flex-col items-center justify-center py-24 text-center opacity-85">
+                         <span class="text-7xl mb-5">🤍</span>
+                         <h2 class="text-2xl font-semibold mb-2 text-[var(--text)]">No Favourites Yet</h2>
+                         <p class="text-[var(--text-muted)] mb-6">Browse listings and tap ❤️ to save homes you love.</p>
+                         <a href="/"
+                             class="bg-white border border-gray-300 hover:bg-gray-50 text-gray-800 font-semibold py-2.5 px-6 rounded-full transition shadow-sm">
+                             Browse Listings
+                         </a>
+                     </div>
+                     <% } else { %>
+ 
+                         <p class="text-[var(--text-light)] text-sm mb-6">
+                             <%= favourites.length %> saved home<%= favourites.length> 1 ? 's' : '' %>
+                         </p>
+ 
+                         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                             <% favourites.forEach(({ home, id })=> { %>
+                                 <article id="fav-card-<%= id %>"
+                                     class="luxury-card flex flex-col group relative">
+ 
+                                     <!-- Photo -->
+                                     <div class="w-full h-52 bg-gray-100 overflow-hidden relative">
+                                         <% if (home.photo) { %>
+                                             <img src="<%= home.photo %>" alt="<%= home.housename %>"
+                                                 class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+                                             <div
+                                                 class="absolute inset-0 hidden flex-col items-center justify-center text-gray-300 text-5xl">
+                                                 🏡</div>
+                                             <% } else { %>
+                                                 <div
+                                                     class="w-full h-full flex flex-col items-center justify-center text-gray-300 text-5xl">
+                                                     🏡</div>
+                                                 <% } %>
+ 
+                                             <!-- Floating Heart Favorite Button -->
+                                             <form action="/listings/<%= id %>/favourite" method="POST" class="absolute top-4 right-4 z-10">
+                                                 <button type="submit" title="Remove from Favourites"
+                                                     class="w-9 h-9 rounded-full bg-white border border-gray-200 flex items-center justify-center shadow-md hover:scale-110 active:scale-95 hover:bg-gray-50 transition text-sm leading-none cursor-pointer">
+                                                     ❤️
+                                                 </button>
+                                             </form>
+                                     </div>
+ 
+                                     <!-- Content -->
+                                     <div class="p-5 flex flex-col gap-2 flex-1">
+ 
+                                         <!-- Title -->
+                                         <div class="flex items-start justify-between gap-2">
+                                             <h2 class="text-lg font-bold text-[var(--text)] leading-snug capitalize truncate flex-1">
+                                                 <%= home.housename %>
+                                             </h2>
+                                         </div>
+ 
+                                         <!-- Star Rating -->
+                                         <div class="flex items-center gap-1 text-yellow-400 text-sm">
+                                             <% const r=ratings[String(id)] || 0; %>
+                                                 <% for(let s=1; s <=5; s++) { %>
+                                                     <span class="<%= s <= r ? 'opacity-100' : 'opacity-30 text-gray-300' %>">★</span>
+                                                     <% } %>
+                                                         <span class="text-[var(--text-light)] text-xs ml-1 font-semibold">
+                                                             <%= r> 0 ? r.toFixed(1) : 'New' %>
+                                                         </span>
+                                         </div>
+ 
+                                         <!-- Location -->
+                                         <div class="flex items-center gap-1 text-[var(--text-light)] text-sm font-medium">
+                                             <svg class="map-pin-svg text-[var(--accent)]" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                                             <span class="truncate">
+                                                 <%= home.location || 'Location not specified' %>
+                                             </span>
+                                         </div>
+ 
+                                         <!-- Price -->
+                                         <div class="mt-auto pt-4 flex items-baseline gap-1">
+                                             <span class="text-2xl font-bold text-[var(--text)]">
+                                                 ₹<%= Number(home.pricePerNight).toLocaleString('en-IN') %>
+                                             </span>
+                                             <span class="text-[var(--text-light)] text-sm">/ night</span>
+                                         </div>
+ 
+                                         <div class="mt-4">
+                                             <a href="/listings/<%= id %>"
+                                                 class="w-full inline-block bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white font-semibold py-2 px-4 rounded-full shadow-md hover:scale-105 transform transition duration-300 ease-in-out text-sm text-center">
+                                                 View Details
+                                             </a>
+                                         </div>
+                                     </div>
+                                 </article>
+                                 <% }) %>
+                         </div>
+ 
+                         <% } %>
+             </main>
+
+    </body>
+
+    </html>

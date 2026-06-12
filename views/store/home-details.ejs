@@ -1,0 +1,203 @@
+<%- include('../partials/head') %>
+    </head>
+
+    <body class="bg-[var(--background)] text-[var(--text)] font-sans min-h-screen flex flex-col">
+ 
+         <%- include('../partials/nav') %>
+ 
+             <main class="flex-1 w-full max-w-4xl mx-auto px-6 py-12">
+ 
+                 <!-- Report Success Banner -->
+                 <% if (locals.reported) { %>
+                     <div
+                         class="bg-emerald-50 border border-emerald-200 text-emerald-800 px-6 py-4 rounded-2xl mb-8 flex items-center gap-3">
+                         <span class="text-xl">✅</span>
+                         <div>
+                             <h3 class="font-bold">Report Submitted Successfully</h3>
+                             <p class="text-xs opacity-90">Thank you for reporting. Our administrative team will review
+                                 this listing shortly.</p>
+                         </div>
+                     </div>
+                     <% } %>
+ 
+                         <!-- Back Button -->
+                         <a href="/"
+                             class="inline-flex items-center gap-2 text-[var(--text-light)] hover:text-[var(--text)] text-sm mb-8 transition">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
+                                 stroke="currentColor" stroke-width="2">
+                                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                             </svg>
+                             Back to Listings
+                         </a>
+ 
+                         <div
+                             class="bg-white rounded-3xl overflow-hidden shadow-md border border-gray-200">
+ 
+                             <!-- Photo -->
+                             <div class="w-full h-72 bg-gray-100 relative overflow-hidden">
+                                 <% if (home.photo) { %>
+                                     <img src="<%= home.photo %>" alt="<%= home.housename %>"
+                                         class="w-full h-full object-cover"
+                                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+                                     <div
+                                         class="absolute inset-0 hidden flex-col items-center justify-center text-gray-300 text-8xl">
+                                         🏡</div>
+                                     <% } else { %>
+                                         <div
+                                             class="w-full h-full flex flex-col items-center justify-center text-gray-300 text-8xl">
+                                             🏡</div>
+                                         <% } %>
+                             </div>
+ 
+                             <!-- Details -->
+                             <div class="p-8 flex flex-col gap-6">
+ 
+                                 <!-- Title + Fav Toggle -->
+                                 <div class="flex items-start justify-between gap-4">
+                                     <h1 class="text-4xl font-bold leading-tight capitalize flex-1 text-[var(--text)]">
+                                         <%= home.housename %>
+                                     </h1>
+                                     <form action="/listings/<%= id %>/favourite" method="POST" class="flex-shrink-0">
+                                         <button type="submit"
+                                             title="<%= isFav ? 'Remove from Favourites' : 'Add to Favourites' %>"
+                                             class="text-4xl hover:scale-125 transition-transform duration-200">
+                                             <%= isFav ? '❤️' : '🤍' %>
+                                         </button>
+                                     </form>
+                                 </div>
+ 
+                                 <!-- Location -->
+                                 <div class="flex items-center gap-2 text-[var(--text-muted)] text-base">
+                                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 flex-shrink-0 text-[var(--primary)]"
+                                         viewBox="0 0 24 24" fill="currentColor">
+                                         <path fill-rule="evenodd"
+                                             d="M11.54 22.351l.07.04.028.016a.76.76 0 00.723 0l.028-.015.071-.041a16.975 16.975 0 001.144-.742 19.58 19.58 0 002.683-2.282c1.944-2.003 3.5-4.697 3.5-8.327a8.25 8.25 0 00-16.5 0c0 3.63 1.556 6.324 3.5 8.327a19.583 19.583 0 002.682 2.282 16.975 16.975 0 001.145.742zM12 13.5a3 3 0 100-6 3 3 0 000 6z"
+                                             clip-rule="evenodd" />
+                                     </svg>
+                                     <span class="text-lg">
+                                         <%= home.location || 'Location not specified' %>
+                                     </span>
+                                 </div>
+ 
+                                 <!-- Current Star Rating -->
+                                 <div class="flex items-center gap-2">
+                                     <div class="flex items-center gap-1 text-yellow-400 text-2xl">
+                                         <% for(let s=1; s <=5; s++) { %>
+                                             <span class="<%= s <= rating ? 'opacity-100' : 'opacity-30 text-gray-300' %>">★</span>
+                                             <% } %>
+                                     </div>
+                                     <span class="text-[var(--text-muted)] text-sm">
+                                         <%= rating > 0 ? rating + ' / 5' : 'Not yet rated' %>
+                                     </span>
+                                 </div>
+ 
+                                 <!-- Rate This Home -->
+                                 <form action="/listings/<%= id %>/rate" method="POST"
+                                     class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-2xl px-5 py-3 w-fit">
+                                     <span class="text-sm font-semibold text-[var(--text-muted)]">Rate:</span>
+                                     <% for(let s=1; s <=5; s++) { %>
+                                         <label class="cursor-pointer text-2xl hover:scale-125 transition-transform duration-150
+                             <%= s <= rating ? 'text-yellow-400' : 'text-gray-300' %>"
+                                             title="<%= s %> star<%= s > 1 ? 's' : '' %>">
+                                             <input type="radio" name="stars" value="<%= s %>" class="hidden"
+                                                 onchange="this.form.submit()" <%= rating === s ? 'checked' : '' %> />
+                                             ★
+                                         </label>
+                                         <% } %>
+                                 </form>
+ 
+                                 <hr class="border-gray-200" />
+ 
+                                 <!-- Stats Row -->
+                                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+ 
+                                     <!-- Price -->
+                                     <div class="bg-gray-50 border border-gray-200 rounded-2xl p-4 flex flex-col gap-1">
+                                         <span
+                                             class="text-[var(--text-muted)] text-xs uppercase tracking-widest font-semibold">Price
+                                             / Night</span>
+                                         <span class="text-3xl font-bold text-[var(--text)]">₹<%=
+                                                 Number(home.pricePerNight).toLocaleString('en-IN') %></span>
+                                     </div>
+ 
+                                     <!-- Location Card -->
+                                     <div class="bg-gray-50 border border-gray-200 rounded-2xl p-4 flex flex-col gap-1">
+                                         <span
+                                             class="text-[var(--text-muted)] text-xs uppercase tracking-widest font-semibold">Location</span>
+                                         <span class="text-lg font-semibold capitalize text-[var(--text)]">
+                                             <%= home.location || '—' %>
+                                         </span>
+                                     </div>
+ 
+                                     <!-- Listing ID -->
+                                     <div class="bg-gray-50 border border-gray-200 rounded-2xl p-4 flex flex-col gap-1">
+                                         <span
+                                             class="text-[var(--text-muted)] text-xs uppercase tracking-widest font-semibold">Listing
+                                             #</span>
+                                         <span class="text-lg font-semibold text-[var(--text)]">#<%= Number(id) + 1 %></span>
+                                     </div>
+ 
+                                     <!-- Host / Owner -->
+                                     <div class="bg-gray-50 border border-gray-200 rounded-2xl p-4 flex flex-col gap-1">
+                                         <span
+                                             class="text-[var(--text-muted)] text-xs uppercase tracking-widest font-semibold">Hosted
+                                             By</span>
+                                         <span class="text-lg font-semibold truncate text-[var(--text)]">
+                                             <%= (user && home.ownerId && String(home.ownerId)===String(user.id))
+                                                 ? 'You (Host)' : (home.ownerName || 'Admin' ) %>
+                                         </span>
+                                     </div>
+                                 </div>
+ 
+                                 <hr class="border-gray-200" />
+ 
+                                 <!-- CTA -->
+                                 <div class="flex gap-4 flex-wrap">
+                                     <a href="/"
+                                         class="flex-1 text-center bg-white border border-gray-300 hover:bg-gray-50 text-gray-800 font-semibold py-3 px-6 rounded-full transition">
+                                         ← Back to Listings
+                                     </a>
+                                     <% if (user && home.ownerId && String(home.ownerId)===String(user.id)) { %>
+                                         <div
+                                             class="flex-1 bg-rose-50 border border-rose-200 rounded-full py-3 px-6 text-center text-[var(--primary)] font-semibold flex items-center justify-center gap-2">
+                                             <span>🏠</span> This is your listing
+                                         </div>
+                                         <a href="/my-listings"
+                                             class="flex-1 text-center bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white font-bold py-3 px-6 rounded-full shadow-lg hover:scale-105 transform transition duration-300">
+                                             📊 Manage Listing
+                                         </a>
+                                         <% } else if (!user || user.role !=='admin' ) { %>
+                                             <a href="/book/<%= id %>"
+                                                 class="flex-1 text-center bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white font-bold py-3 px-6 rounded-full shadow-lg hover:scale-105 transform transition duration-300">
+                                                 🏡 Book Now
+                                             </a>
+                                             <% } %>
+                                                 <% if (!user) { %>
+                                                     <a href="/list-home"
+                                                         class="flex-1 text-center bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white font-bold py-3 px-6 rounded-full shadow-lg hover:scale-105 transform transition duration-300">
+                                                         🏡 List Your Home
+                                                     </a>
+                                                     <% } %>
+                                                         <% if (user && user.role==='admin' ) { %>
+                                                             <a href="/host/edit-homes"
+                                                                 class="flex-1 text-center bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white font-bold py-3 px-6 rounded-full shadow-lg hover:scale-105 transform transition duration-300">
+                                                                 🛠 Manage Listings
+                                                             </a>
+                                                             <% } %>
+                                                                 <% if (user && (!home.ownerId || String(home.ownerId)
+                                                                     !==String(user.id)) && user.role !=='admin' ) { %>
+                                                                     <a href="/report/<%= id %>"
+                                                                         class="bg-red-50 border border-red-200 hover:bg-red-100 text-red-600 font-semibold py-3 px-6 rounded-full text-center transition flex-1">
+                                                                         🚩 Report Listing
+                                                                     </a>
+                                                                     <% } %>
+                                 </div>
+ 
+                             </div>
+                         </div>
+ 
+             </main>
+
+    </body>
+
+    </html>

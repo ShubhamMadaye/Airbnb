@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>
+    <%= pageTitle %>
+  </title>
+  <link rel="stylesheet" href="/output.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #F43F5E;
+      --primary-hover: #E11D48;
+      --navbar: #0F172A;
+      --background: #F1F5F9;
+      /* Adjusted from #F9FAFB to #F1F5F9 for superior contrast against white elements */
+      --card-bg: #FFFFFF;
+      --text: #1F2937;
+      --border: #E5E7EB;
+
+      --text-muted: #4B5563;
+      --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+      --card-shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.08);
+    }
+
+    /* Global Reset & Body overrides for Light Mode */
+    body {
+      background-color: var(--background) !important;
+      background-image: none !important;
+      color: var(--text) !important;
+      font-family: 'Inter', sans-serif !important;
+    }
+
+    /* Typography Overrides */
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: var(--text) !important;
+    }
+
+    p,
+    span,
+    div,
+    td,
+    th {
+      color: inherit;
+    }
+
+    .text-white,
+    .text-amber-100 {
+      color: var(--text) !important;
+    }
+
+    .text-amber-200,
+    .text-amber-300,
+    .text-pink-200,
+    .text-white\/60,
+    .text-white\/70,
+    .text-white\/40 {
+      color: var(--text-muted) !important;
+    }
+
+    /* Headers */
+    header h1 {
+      color: var(--text) !important;
+    }
+
+    header p {
+      color: var(--text-muted) !important;
+    }
+
+    /* Navigation overrides to use high-fidelity Option 1 theme (pure white background, dark gray text, rose accents) */
+    nav {
+      background-color: #FFFFFF !important;
+      background-image: none !important;
+      color: var(--text) !important;
+      border-bottom: 1px solid var(--border) !important;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05) !important;
+    }
+
+    nav a {
+      color: var(--text-muted) !important;
+      font-weight: 600 !important;
+      transition: color 0.2s ease-in-out !important;
+    }
+
+    nav a.text-rose-500 {
+      color: var(--primary) !important;
+      /* Brand logo remains brilliant rose */
+    }
+
+    nav a:hover {
+      color: var(--primary) !important;
+    }
+
+    nav a.hover\:text-amber-300:hover,
+    nav a.hover\:text-pink-300:hover {
+      color: var(--primary) !important;
+    }
+
+    nav a.text-amber-300,
+    nav a.text-pink-300 {
+      color: var(--primary) !important;
+      border-bottom: 2px solid var(--primary) !important;
+      padding-bottom: 4px;
+      font-weight: 700 !important;
+    }
+
+    nav button {
+      color: var(--text-muted) !important;
+    }
+
+    nav button:hover {
+      color: var(--primary) !important;
+    }
+
+    nav form button {
+      color: var(--text-muted) !important;
+      border-left-color: var(--border) !important;
+    }
+
+    /* Style the Sign Up button to be solid rose capsule */
+    nav a[href="/auth/register"],
+    nav a.bg-white\/20 {
+      background-color: var(--primary) !important;
+      background-image: none !important;
+      color: #FFFFFF !important;
+      font-weight: 700 !important;
+      border: none !important;
+      padding: 0.5rem 1.25rem !important;
+      box-shadow: 0 4px 6px -1px rgba(244, 63, 94, 0.2) !important;
+      transition: all 0.2s ease-in-out !important;
+    }
+
+    nav a[href="/auth/register"]:hover,
+    nav a.bg-white\/20:hover {
+      background-color: var(--primary-hover) !important;
+      color: #FFFFFF !important;
+      transform: scale(1.03) !important;
+      box-shadow: 0 6px 8px -1px rgba(244, 63, 94, 0.3) !important;
+    }
+
+    /* Style the Login button to be a text link */
+    nav a[href="/auth/login"] {
+      color: var(--text-muted) !important;
+      font-weight: 600 !important;
+    }
+
+    nav a[href="/auth/login"]:hover {
+      color: var(--primary) !important;
+    }
+
+    /* Premium Frosted Glass to Solid Light Card */
+    article,
+    .bg-white\/10,
+    .bg-white\/5,
+    .bg-white\/15,
+    .backdrop-blur-md {
+      background-color: var(--card-bg) !important;
+      border: 1px solid var(--border) !important;
+      color: var(--text) !important;
+      backdrop-filter: none !important;
+      box-shadow: var(--card-shadow) !important;
+    }
+
+    article:hover,
+    .hover\:bg-white\/15:hover {
+      box-shadow: var(--card-shadow-hover) !important;
+      background-color: var(--card-bg) !important;
+    }
+
+    /* Primary Buttons using Rose primary tint */
+    .bg-amber-500,
+    .bg-gradient-to-r.from-amber-400.to-amber-500,
+    .bg-gradient-to-r.from-green-400.to-emerald-500,
+    .bg-gradient-to-r.from-amber-400.to-amber-500.hover\:from-amber-500.hover\:to-amber-600,
+    .bg-pink-500,
+    .bg-gradient-to-r.from-amber-400.to-amber-500.hover\:from-amber-500.hover\:to-red-500 {
+      background-color: var(--primary) !important;
+      background-image: none !important;
+      color: white !important;
+      border: none !important;
+    }
+
+    .bg-amber-500:hover,
+    .bg-gradient-to-r.from-amber-400.to-amber-500:hover,
+    .bg-gradient-to-r.from-green-400.to-emerald-500:hover,
+    .bg-pink-500:hover,
+    .hover\:bg-amber-600:hover {
+      background-color: var(--primary-hover) !important;
+      background-image: none !important;
+      color: white !important;
+    }
+
+    /* Secondary Buttons & Actions */
+    .bg-white\/20,
+    .border-white\/30,
+    .bg-white\/10.border.border-white\/20,
+    .border-white\/20,
+    .bg-white\/10.border.border-white\/20.hover\:bg-white\/20 {
+      background-color: transparent !important;
+      border: 1px solid var(--border) !important;
+      color: var(--text) !important;
+    }
+
+    .bg-white\/20:hover,
+    .hover\:bg-white\/20:hover,
+    .hover\:bg-white\/30:hover {
+      background-color: #F3F4F6 !important;
+      color: var(--text) !important;
+    }
+
+    /* Special badges */
+    .bg-amber-500\/90 {
+      background-color: var(--primary) !important;
+      color: white !important;
+      border-color: rgba(255, 255, 255, 0.2) !important;
+    }
+
+    /* Inputs & Forms */
+    input,
+    textarea,
+    select {
+      background-color: #FFFFFF !important;
+      border: 1px solid var(--border) !important;
+      color: var(--text) !important;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: var(--primary) !important;
+      box-shadow: 0 0 0 2px rgba(244, 63, 94, 0.2) !important;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: #9CA3AF !important;
+    }
+
+    select option {
+      background-color: #FFFFFF !important;
+      color: var(--text) !important;
+    }
+
+    /* High Quality Light Tables */
+    table {
+      background-color: var(--card-bg) !important;
+      border-collapse: collapse !important;
+    }
+
+    thead tr,
+    thead tr.bg-white\/20 {
+      background-color: #F1F5F9 !important;
+      color: var(--text) !important;
+      border-bottom: 2px solid var(--border) !important;
+    }
+
+    thead th {
+      color: var(--text-muted) !important;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid var(--border) !important;
+    }
+
+    tbody tr:nth-child(even) {
+      background-color: #F8FAFC !important;
+    }
+
+    tbody tr:hover {
+      background-color: #F1F5F9 !important;
+    }
+
+    tfoot tr,
+    tfoot tr.bg-white\/20 {
+      background-color: #F1F5F9 !important;
+      color: var(--text) !important;
+      border-top: 2px solid var(--border) !important;
+    }
+
+    /* Rating and icon details */
+    .text-yellow-400 {
+      color: #F59E0B !important;
+      /* Warm gold amber */
+    }
+
+    /* System message and logs */
+    .bg-red-500\/20 {
+      background-color: #FEF2F2 !important;
+      border-color: #FCA5A5 !important;
+      color: #991B1B !important;
+    }
+
+    .bg-yellow-500\/20 {
+      background-color: #FEFCE8 !important;
+      border-color: #FDE047 !important;
+      color: #854D0E !important;
+    }
+
+    .bg-green-500\/20,
+    .bg-emerald-500\/20 {
+      background-color: #ECFDF5 !important;
+      border-color: #A7F3D0 !important;
+      color: #065F46 !important;
+    }
+
+    .text-green-300,
+    .text-green-400,
+    .text-emerald-300,
+    .text-emerald-400 {
+      color: #059669 !important;
+    }
+
+    /* Form separator */
+    hr,
+    .border-white {
+      border-color: var(--border) !important;
+    }
+
+    /* Container for widescreen views */
+    .widescreen-container {
+      width: 100% !important;
+      max-width: 1200px !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+      padding-left: 1.5rem !important;
+      padding-right: 1.5rem !important;
+    }
+
+    /* Option 1 Search Bar styling */
+    .search-bar-luxury {
+      background-color: #FFFFFF !important;
+      border: 1px solid var(--border) !important;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+      border-radius: 9999px !important;
+    }
+
+    .search-bar-luxury:focus-within {
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.08) !important;
+      border-color: #D1D5DB !important;
+    }
+
+    /* Search input customization */
+    .search-input-clean {
+      background: transparent !important;
+      color: var(--text) !important;
+      font-size: 0.75rem !important;
+      font-weight: 600 !important;
+    }
+
+    /* Category Buttons styling */
+    .category-btn {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 0.35rem !important;
+      color: var(--text-muted) !important;
+      font-size: 0.75rem !important;
+      font-weight: 600 !important;
+      padding: 0.5rem 0.25rem 0.75rem !important;
+      border-bottom: 2px solid transparent !important;
+      transition: all 0.2s ease-in-out !important;
+      background: none !important;
+      border: none !important;
+      cursor: pointer !important;
+    }
+
+    .category-btn svg {
+      width: 1.5rem !important;
+      height: 1.5rem !important;
+      stroke: var(--text-muted) !important;
+      transition: stroke 0.2s ease-in-out !important;
+    }
+
+    .category-btn:hover {
+      color: var(--text) !important;
+      border-bottom-color: var(--border) !important;
+    }
+
+    .category-btn:hover svg {
+      stroke: var(--text) !important;
+    }
+
+    .category-btn.active {
+      color: var(--primary) !important;
+      border-bottom-color: var(--primary) !important;
+    }
+
+    .category-btn.active svg {
+      stroke: var(--primary) !important;
+    }
+
+    /* Option 1 Property Card styling */
+    .luxury-card {
+      background-color: var(--card-bg) !important;
+      border: 1px solid var(--border) !important;
+      border-radius: 1rem !important;
+      overflow: hidden !important;
+      box-shadow: var(--card-shadow) !important;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    }
+
+    .luxury-card:hover {
+      transform: translateY(-4px) !important;
+      box-shadow: var(--card-shadow-hover) !important;
+      border-color: #D1D5DB !important;
+    }
+
+    .map-pin-svg {
+      width: 14px !important;
+      height: 14px !important;
+      display: inline-block !important;
+      vertical-align: middle !important;
+    }
+  </style>

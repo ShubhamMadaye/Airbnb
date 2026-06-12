@@ -1,0 +1,80 @@
+<%- include('../partials/head') %>
+</head>
+
+<body class="bg-gradient-to-br from-amber-600 to-amber-800 text-white font-sans min-h-screen flex flex-col"
+    style="font-family: 'Inter', sans-serif;">
+
+    <%- include('../partials/nav') %>
+
+    <main class="flex-1 w-full max-w-5xl mx-auto px-6 py-12">
+
+        <header class="mb-8">
+            <h1 class="text-3xl font-bold">⏳ Pending Listing Approvals</h1>
+            <p class="text-amber-200 mt-1 text-sm">Review submitted properties and approve them for public listing or reject them.</p>
+        </header>
+
+        <% if (homes.length === 0) { %>
+            <div class="bg-white/10 border border-white/10 rounded-2xl p-12 text-center">
+                <div class="text-6xl mb-4">✨</div>
+                <h2 class="text-xl font-semibold">Queue is clear!</h2>
+                <p class="text-amber-200 text-sm mt-2">There are currently no listings pending review.</p>
+            </div>
+        <% } else { %>
+            <div class="flex flex-col gap-4">
+                <% homes.forEach((home) => { %>
+                    <div class="bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-5 flex flex-col md:flex-row items-center gap-5 shadow-xl hover:bg-white/15 transition">
+
+                        <!-- Photo Thumbnail -->
+                        <div class="w-full md:w-32 h-32 rounded-xl overflow-hidden flex-shrink-0 bg-amber-900/40">
+                            <% if (home.photo) { %>
+                                <img src="<%= home.photo %>" alt="<%= home.housename %>"
+                                    class="w-full h-full object-cover"
+                                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+                                <div class="w-full h-full hidden items-center justify-center text-5xl">🏡</div>
+                            <% } else { %>
+                                <div class="w-full h-full flex items-center justify-center text-5xl">🏡</div>
+                            <% } %>
+                        </div>
+
+                        <!-- Home Info -->
+                        <div class="flex-1 min-w-0 text-center md:text-left">
+                            <div class="flex items-center justify-center md:justify-start gap-3 flex-wrap">
+                                <h2 class="text-xl font-bold capitalize truncate"><%= home.housename %></h2>
+                                <span class="bg-yellow-500/20 border border-yellow-400/40 text-yellow-300 text-xs font-semibold px-2.5 py-0.5 rounded-full uppercase tracking-wider animate-pulse">
+                                    Pending Review
+                                </span>
+                            </div>
+                            <p class="text-amber-200 text-sm mt-1 capitalize"><%= home.location %></p>
+                            
+                            <div class="flex flex-wrap items-center justify-center md:justify-start gap-x-4 gap-y-1 text-sm text-white/70 mt-3">
+                                <span>Price: <strong class="text-white text-base">₹<%= Number(home.pricePerNight).toLocaleString('en-IN') %></strong> / night</span>
+                                <span class="hidden md:inline">·</span>
+                                <span>Submitted by: <strong class="text-amber-200"><%= home.ownerName || 'Unknown Host' %></strong></span>
+                                <span class="hidden md:inline">·</span>
+                                <span>ID: <strong class="text-amber-200">#<%= home.id %></strong></span>
+                            </div>
+                        </div>
+
+                        <!-- Actions -->
+                        <div class="flex gap-3 flex-shrink-0 w-full md:w-auto justify-center">
+                            <form action="/host/approve-home/<%= home.id %>" method="POST" class="flex-1 md:flex-none">
+                                <button type="submit" class="w-full md:w-auto bg-green-500 hover:bg-green-600 text-white font-bold py-2.5 px-6 rounded-full transition shadow-md hover:scale-105 transform flex items-center justify-center gap-1 text-sm">
+                                    <span>✅</span> Approve
+                                </button>
+                            </form>
+                            <form action="/host/reject-home/<%= home.id %>" method="POST" class="flex-1 md:flex-none" onsubmit="return confirm('Are you sure you want to reject this listing?');">
+                                <button type="submit" class="w-full md:w-auto bg-red-500 hover:bg-red-600 text-white font-bold py-2.5 px-6 rounded-full transition shadow-md hover:scale-105 transform flex items-center justify-center gap-1 text-sm">
+                                    <span>❌</span> Reject
+                                </button>
+                            </form>
+                        </div>
+
+                    </div>
+                <% }) %>
+            </div>
+        <% } %>
+
+    </main>
+
+</body>
+</html>

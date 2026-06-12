@@ -1,0 +1,69 @@
+<%- include('../partials/head') %>
+</head>
+
+<body class="bg-[var(--background)] text-[var(--text)] font-sans min-h-screen flex flex-col">
+ 
+     <%- include('../partials/nav') %>
+ 
+     <main class="flex-1 w-full max-w-xl mx-auto px-6 py-12">
+ 
+         <!-- Back Button -->
+         <a href="/listings/<%= homeId %>" class="inline-flex items-center gap-2 text-[var(--text-light)] hover:text-[var(--text)] text-sm mb-8 transition">
+             <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
+                 stroke="currentColor" stroke-width="2">
+                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+             </svg>
+             Cancel and Back to details
+         </a>
+ 
+         <div class="bg-white border border-gray-200 rounded-3xl p-8 shadow-md">
+             
+             <header class="mb-6 text-left">
+                 <span class="text-4xl">🚩</span>
+                 <h1 class="text-2xl font-bold mt-3 text-[var(--text)]">Report Listing</h1>
+                 <p class="text-[var(--text-muted)] mt-1 text-sm font-medium">Please let us know what is wrong with the listing <strong class="text-[var(--text)] capitalize font-bold">"<%= home.housename %>"</strong>. Your report will be kept completely confidential and reviewed by administrators.</p>
+             </header>
+ 
+             <form action="/report/<%= homeId %>" method="POST" class="flex flex-col gap-5">
+                 
+                 <!-- Reason Dropdown -->
+                 <div class="flex flex-col gap-2 text-left">
+                     <label for="reason" class="text-sm font-semibold text-[var(--text-muted)]">Reason for Report</label>
+                     <select id="reason" name="reason" required
+                         class="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-gray-800 focus:outline-none focus:ring-2 focus:ring-rose-400 transition">
+                         <option value="" disabled selected class="bg-white text-gray-400">Select a reason...</option>
+                         <option value="Fake or scam listing" class="bg-white text-gray-800">Fake or scam listing</option>
+                         <option value="Inaccurate details or location" class="bg-white text-gray-800">Inaccurate details or location</option>
+                         <option value="Pricing scam or fraud" class="bg-white text-gray-800">Pricing scam or fraud</option>
+                         <option value="Inappropriate photos or text" class="bg-white text-gray-800">Inappropriate photos or text</option>
+                         <option value="Host was abusive or unresponsive" class="bg-white text-gray-800">Host was abusive or unresponsive</option>
+                         <option value="Other issues" class="bg-white text-gray-800">Other issues</option>
+                     </select>
+                 </div>
+ 
+                 <!-- Details textarea -->
+                 <div class="flex flex-col gap-2 text-left">
+                     <label for="details" class="text-sm font-semibold text-[var(--text-muted)]">Additional Details (Optional)</label>
+                     <textarea id="details" name="details" rows="5" placeholder="Please provide details to help us investigate, such as specific errors, suspicious behavior, or links to external sources..."
+                         class="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-rose-400 transition resize-none"></textarea>
+                 </div>
+ 
+                 <div class="mt-4 flex gap-4">
+                     <a href="/listings/<%= homeId %>"
+                         class="flex-1 text-center bg-white border border-gray-300 hover:bg-gray-50 text-gray-800 font-semibold py-3 px-6 rounded-full transition">
+                         Cancel
+                     </a>
+                     <button type="submit"
+                         class="flex-1 bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 text-white font-bold py-3 px-6 rounded-full shadow-md hover:scale-105 transform transition duration-300">
+                         Submit Report 🚩
+                     </button>
+                 </div>
+ 
+             </form>
+ 
+         </div>
+
+    </main>
+
+</body>
+</html>
