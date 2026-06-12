@@ -110,7 +110,7 @@ mongoConnect(() => {
 
 // mongoose connection 
 
-const db_Path = "mongodb+srv://shubhammadaye02:shubham022006@airbnb.pbvovjo.mongodb.net/airbnb?appName=airbnb";
+const db_Path = "your_Mongodb_Url";
 
 //.then() n .catch() approach to promise chaining bhi bolte hai
 //fetchAll fuction ko fetchAll se replace kiya hai mongoose keliye specially
