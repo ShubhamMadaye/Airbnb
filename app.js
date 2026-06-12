@@ -1,8 +1,6 @@
 const express = require('express');
 const path = require('path');
 const multer = require("multer");
-// const db = require('./utils/database');
-//const {mongoConnect} = require('./utils/database'); 
 const userRouter = require('./routes/userRouter');
 const { hostRouter } = require('./routes/hostRouter');
 const authRouter = require('./routes/authRouter');
@@ -70,8 +68,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));  // ← serve uploaded images
 app.use(multer(multerOptions).single("photo"));
 
-// Parse HTML form submissions into req.body
-
 // Mount routers at their prefixes
 app.use('/', userRouter);
 app.use('/auth', authRouter);
@@ -79,34 +75,6 @@ app.use('/host', hostRouter);
 
 // Catch-all 404
 app.use(pageNotFound);
-
-
-/*
-
-// ── Start server only after confirming DB connection (sql) ──────────────────────────
-db.execute('SELECT 1')
-    .then(() => {
-        console.log('✅ MySQL connected successfully.');
-        app.listen(PORT, () => {
-            console.log(`🚀 Server is running on http://localhost:${PORT}`);
-        });
-    })
-    .catch(err => {
-        console.error('❌ Could not connect to MySQL:', err.message);
-        console.error('   Make sure MySQL is running and "airbnb" database exists.');
-        console.error('   Run: mysql -u root -p airbnb < db/schema.sql');
-        process.exit(1);
-    });
-
-//mongo connection
-
-mongoConnect(() => {
-    console.log('✅ MongoDB connected successfully.');
-    app.listen(PORT, () => {
-        console.log(`🚀 Server is running on http://localhost:${PORT}`);
-    });
-});
-*/
 
 // mongoose connection 
 
